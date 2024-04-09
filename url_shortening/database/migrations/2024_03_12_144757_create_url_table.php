@@ -14,10 +14,13 @@ return new class extends Migration
     {
         Schema::create('url', function (Blueprint $table) {
             $table->id();
-            $table->string('original_url');
+            $table->text('original_url');
             $table->string('short_url');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('clicks')->default(0);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->dateTime('date')->default(DB::raw('NOW()'));
+            $table->timestamps();
         });
     }
 

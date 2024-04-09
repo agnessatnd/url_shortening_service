@@ -3,40 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Url;
 
 class urlShortening extends Controller
 {
     public function shorten(Request $request)
     {
-        $originalURL = $request->input('url');
-        $shortenedCode = $this->generateShortUrl($originalURL);
+        if ($request->has('shorten_button')) {
 
-        // Salvestan andmed andmebaasi
-       DB::table('url')->insert([
-            'original_url' => $originalURL,
-            'short_url' => $shortenedCode,
-            'user_id' => null,
-        ]);
+            $originalURL = $request->input('url');
+            $shortenedCode = $this->generateShortUrl($originalURL);
 
+            if (Auth::check()) {
+                $userId = Auth::id(); // If user is logged in
+            } else {
+                $userId = null;
+            }
 
-        $shortenedURL = 'http://127.0.0.1:8000/' . $shortenedCode;
-        $request->session()->flash('shortenedURL', $shortenedURL);
+            Url::create([
+                'original_url' => $originalURL,
+                'short_url' => $shortenedCode,
+                'user_id' => $userId,
+            ]);
 
-        return redirect()->back();
+            $shortenedURL = 'http://127.0.0.1:8000/' . $shortenedCode;
+            $request->session()->flash('shortenedURL', $shortenedURL);
+
+            return redirect()->back();
+        }
     }
 
-
-
-   public function redirectToOriginalUrl(Request $request, $shortCode)
+    public function redirectToOriginalUrl(Request $request, $shortCode)
     {
-        $shortenedUrl = DB::table('url')->where('short_url', $shortCode)->first();
+        $shortenedUrl = Url::where('short_url', $shortCode)->first();
 
         if ($shortenedUrl) {
-            // Suuname kasutaja originaalsele URL-ile
+            // Incrementing the number of clicks
+            $shortenedUrl->increment('clicks');
+            // Redirecting to the original URL
             return redirect()->away($shortenedUrl->original_url);
         } else {
-            // Kui originaal URL-i ei leitud, siis kuvatakse 404 viga
+            // If the original URL is not found
             abort(404);
         }
     }
@@ -53,5 +61,3 @@ class urlShortening extends Controller
         return $code;
     }
 }
-
-
