@@ -2,9 +2,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UrlTable;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\urlShortening;
-use App\Http\Controllers\UrlTableController;
+use App\Http\Controllers\UrlTabler;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,15 +31,27 @@ Route::get('/login', function () {
     return view('shortening');
 })->middleware(['auth', 'verified'])->name('auth');
 
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/shortening', function () {
         return view('shortening');
     });
-    Route::get('/url_table', [UrlTableController::class, 'urlTable'])->name('url_table');
+    Route::get('/url_table', [UrlTable::class, 'urlTable'])->name('url_table');
     Route::post('/shortening', [urlShortening::class, 'shorten'])->name('shorten');
-    Route::get('/{shortCode}', [urlShortening::class, 'redirectToOriginalUrl']);
-    Route::delete('/url_table/{id}', [UrlTableController::class, 'deleteUrl'])->name('url_table.delete');
+    Route::delete('/url_table/{id}', [UrlTable::class, 'deleteUrl'])->name('url_table.delete');
+    Route::get('/edit_url/{id}', [UrlTable::class, 'editUrl'])->name('edit_url');
+    Route::post('/update_custom_link/{id}', [UrlTable::class, 'updateCustomLink']);
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
 });
+
+Route::get('/{shortCode}', [urlShortening::class, 'redirectToOriginalUrl']);
 
 
 require __DIR__.'/auth.php';

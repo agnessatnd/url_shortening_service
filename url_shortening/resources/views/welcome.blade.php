@@ -16,38 +16,7 @@
         </style>
     </head>
     <body class="antialiased">
-
-        <nav class="bg-blue-500">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 ">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 mr-6">
-                        <a href="/" class="text-white">TPT Link</a>
-                    </div>
-                    @auth
-                    <div class="flex-shrink-0 mr-4">
-                        <a href="/url_table" class="text-white">Lühendatud lingid</a>
-                    </div>
-                    @endauth
-                </div>
-                <div class="flex items-center space-x-4">
-                    @guest
-                        <a href="{{ route('login') }}" class="text-white">Log in</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-white">Register</a>
-                        @endif
-                    @else
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            class="text-white">
-                            Logi välja
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    @endguest
-                </div>
-            </div>
-        </nav>
+    @include('navbar')
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
                 <div class="flex justify-center">

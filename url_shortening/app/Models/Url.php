@@ -15,10 +15,12 @@ class Url extends Model
         'user_id',
         'date',
         'clicks',
+        'expiration_date',
     ];
 
     protected $casts = [
         'date' => 'datetime',
+        'expiration_date' => 'datetime',
     ];
 
     public function user()

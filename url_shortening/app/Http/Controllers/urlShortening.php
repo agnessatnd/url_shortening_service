@@ -11,7 +11,7 @@ class urlShortening extends Controller
     public function shorten(Request $request)
     {
         if ($request->has('shorten_button')) {
-
+            
             $originalURL = $request->input('url');
             $shortenedCode = $this->generateShortUrl($originalURL);
 
@@ -33,7 +33,6 @@ class urlShortening extends Controller
             return redirect()->back();
         }
     }
-
     public function redirectToOriginalUrl(Request $request, $shortCode)
     {
         $shortenedUrl = Url::where('short_url', $shortCode)->first();
@@ -48,7 +47,6 @@ class urlShortening extends Controller
             abort(404);
         }
     }
-
     private function generateShortUrl($url) {
         $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
         $code = '';
@@ -57,7 +55,6 @@ class urlShortening extends Controller
         for ($i = 0; $i < 6; $i++) {
             $code .= $characters[rand(0, $length - 1)];
         }
-
         return $code;
     }
 }
