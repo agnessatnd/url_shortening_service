@@ -12,23 +12,35 @@
 </head>
 <body class="antialiased bg-gray-100">
 <div id="notification" class="notification"></div>
-@include('navbar')
+@include('url_components/navbar')
 <div class="mb-4 mt-8">
+<div id="delete-button-container" class="flex justify-end mb-4">
+    <div id="delete-button" style="display: none;">
+        <button type="button" class="bg-red-500 text-white px-4 py-2 rounded" onclick="deleteSelectedRows()">Kustuta valitud</button>
+    </div>
+</div>
     <div class="container mx-auto overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200" style="width: 100%;">
             <thead>
                 <tr>
+                    <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">
+                        <input type="checkbox" id="select-all" class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out" onchange="toggleAllCheckboxes(this)">
+                        <label for="select-all" class="ml-2 text-blue-600 cursor-pointer">Vali kõik</label>
+                    </th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider" style="max-width: 300px;">Originaal link</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Lühendatud link</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Lisatud</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Klikid</th>
-                    <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Muudetud</th>
+                    <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Kehtib kuni</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Muuda</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($urls as $url)
                     <tr class="bg-gray-200 hover:bg-gray-300">
+                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">
+                            <input type="checkbox" class="row-checkbox" value="{{ $url->id }}" onchange="toggleDeleteButton()">
+                        </td>
                         <td class="px-6 py-4 whitespace-wrap" style="max-width: 300px; overflow-wrap: break-word;">{{ $url->original_url }}</td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">
                             http://127.0.0.1:8000/{{ $url->short_url }}
@@ -38,7 +50,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->created_at }}</td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->clicks }}</td>
-                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->updated_at }}</td>
+                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->expiration_date }}</td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">
                             <a href="#" class="text-blue-500 hover:text-blue-700 edit-url" title="Muuda" data-url-id="{{ $url->id }}" data-dialog-id="dialog-{{ $url->id }}" onclick="openDialog('dialog-{{ $url->id }}')">
                                 <i class="fas fa-edit"></i>
@@ -52,7 +64,7 @@
             </tbody>
         </table>
     </div>
-    @include('edit_modal')
+    @include('url_components/edit_modal')
 </div>
 </body>
 </html>

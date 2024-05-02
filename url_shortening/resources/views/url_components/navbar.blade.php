@@ -24,7 +24,7 @@
                     <a href="{{ route('register') }}" class="text-white">Registreeri</a>
                 @endif
             @else
-            @include('user_dropdown')
+            @include('url_components/user_dropdown')
             @endguest
         </div>
     </div>

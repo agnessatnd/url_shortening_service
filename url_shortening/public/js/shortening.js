@@ -1,19 +1,3 @@
-function copy() {
-    var copyText = document.getElementById("shortened_url");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    copyText.focus();
-    navigator.clipboard.writeText(copyText.value);
-
-    var notification = document.getElementById("notification");
-    notification.innerText = "Link kopeeritud lõikelauale!";
-    notification.style.display = "block";
-
-    setTimeout(function(){
-        notification.style.display = "none";
-    }, 3000);
-}
-
 function copyShortUrl(shortUrl) {
     const fullUrl = 'http://127.0.0.1:8000/' + shortUrl;
 
@@ -25,6 +9,28 @@ function copyShortUrl(shortUrl) {
             console.error('Tekkis viga kopeerimisel: ', err);
             alert('Kopeerimisel tekkis viga');
         });
+}
+
+function copyToClipboard() {
+    var prefix = document.getElementById("short-link-prefix").value;
+    var shortenedUrl = document.getElementById("shortenedUrl").value;
+    var fullUrl = prefix + shortenedUrl;
+    navigator.clipboard.writeText(fullUrl).then(function() {
+        alert('Link kopeeritud lõikelauale: ' + fullUrl);
+    }, function(err) {
+        alert('Kopeerimisel tekkis viga');
+    });
+}
+
+function checkInput() {
+    var urlInput = document.getElementById('urlInput');
+    var shortenButton = document.getElementById('shortenButton');
+
+    if (urlInput.value === '') {
+        shortenButton.disabled = true;
+    } else {
+        shortenButton.disabled = false;
+    }
 }
 
 
@@ -45,7 +51,6 @@ function deleteUrl(urlId) {
             }
         })
         .catch(error => {
-            console.error('Kustutamise tõrge:', error);
             alert('Midagi läks valesti. Palun proovige uuesti.');
         });
     }
@@ -65,10 +70,123 @@ function openShorteningModal() {
 }
 
 function closeShorteningModal() {
-    document.getElementById('modal').classList.add('hidden');
+    var modal = document.getElementById('modal');
+    modal.style.display = 'none';
 }
 
+function toggleAllCheckboxes(mainCheckbox) {
+    var checkboxes = document.querySelectorAll('.row-checkbox');
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = mainCheckbox.checked;
+    });
+
+    toggleDeleteButton();
+}
+
+function toggleSelectAll(event) {
+    event.preventDefault();
+
+    var selectAllCheckbox = document.getElementById('select-all');
+    var checkboxes = document.querySelectorAll('.row-checkbox');
+
+    if (selectAllCheckbox.checked) {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    } else {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = true;
+        });
+    }
+
+    toggleDeleteButton();
+}
+
+function toggleDeleteButton() {
+    var selectedRows = document.querySelectorAll('input.row-checkbox:checked');
+    var deleteButton = document.getElementById('delete-button');
+
+    if (selectedRows.length > 0) {
+        deleteButton.style.display = 'block';
+    } else {
+        deleteButton.style.display = 'none';
+    }
+}
+
+
+function deleteSelectedRows() {
+    var selectedIds = [];
+    var selectedRows = document.querySelectorAll('input.row-checkbox:checked');
+
+    selectedRows.forEach(function(row) {
+        selectedIds.push(row.value);
+    });
+
+    var formData = new FormData();
+    formData.append('selectedIds', JSON.stringify(selectedIds));
+
+    fetch('/delete-selected-rows', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Read kustutatud edukalt');
+            location.reload();
+        } else {
+            alert('Ridade kustutamine ebaõnnestus');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayErrorMessage(message) {
+    var errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.textContent = message;
+    errorMessageElement.classList.remove('hidden');
+}
+
+function hideErrorMessage() {
+    var errorMessageElement = document.getElementById('error-message');
+    errorMessageElement.textContent = '';
+    errorMessageElement.classList.add('hidden');
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
+
+    document.getElementById('shortenedUrlForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        fetch(this.getAttribute('action'), {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                return response.text().then(function(errorMessage) {
+                    throw new Error(errorMessage);
+                });
+            }
+            closeShorteningModal();
+            window.location.reload();
+        })
+        .catch(function(error) {
+            if (error.message !== 'Serveri vastuse staatus pole OK') {
+                displayErrorMessage('Viga: ' + error.message);
+            }
+        });
+
+    });
+
+    hideErrorMessage();
+
     const deleteButtons = document.querySelectorAll('.delete-url');
 
     deleteButtons.forEach(button => {
@@ -115,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 location.reload();
             })
             .catch(error => {
-                console.error('Error:', error);
                 alert('Midagi läks valesti. Palun proovige uuesti.');
             });
         });

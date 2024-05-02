@@ -22,7 +22,7 @@ class Url extends Model
         'date' => 'datetime',
         'expiration_date' => 'datetime',
     ];
-
+    public $timestamps = true; 
     public function user()
     {
         return $this->belongsTo(User::class);

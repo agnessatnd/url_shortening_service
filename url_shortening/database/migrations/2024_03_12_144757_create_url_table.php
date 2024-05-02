@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('clicks')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->dateTime('expiration_date')->nullable();
-            $table->dateTime('date')->default(DB::raw('NOW()'));
             $table->timestamps();
         });
     }

@@ -32,9 +32,10 @@
                                 <input type="text" id="custom-link-end" name="custom_link" value="{{ $editUrl->short_url }}" placeholder="Sisestage kohandatud link" class="px-4 py-2 border border-gray-300 rounded w-full">
                             </div>
                         </div>
-                        <div class="flex items-center mb-4">
-                            <label for="expires_at" class="block text-base font-medium text-gray-700 mr-2">Kehtib kuni:</label>
-                            <input type="datetime-local" id="expires_at" name="expires_at" class="px-3 py-2 border border-gray-300 rounded mt-1 focus:ring-blue-500 focus:border-blue-500 block w-40 shadow-sm sm:text-sm rounded-md">
+                        <div class="flex items-center mb-2">
+                            <label class="block text-base font-medium text-gray-700 mr-2">Kehtib kuni:</label>
+                            <input type="date" id="datepicker" name="expiration_date" class="px-4 py-1 h-10 border border-gray-300 rounded mr-2">
+                            <input type="time" id="timepicker" name="expiration_time" class="px-4 py-1 h-10 border border-gray-300 rounded">
                         </div>
                         <div class="modal-footer flex justify-end pt-4 border-t">
                             <button type="submit" class="w-auto bg-blue-500 text-white font-semibold px-4 py-2 rounded mr-2 save-button">Salvesta</button>

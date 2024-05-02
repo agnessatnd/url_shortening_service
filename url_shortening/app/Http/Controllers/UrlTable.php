@@ -26,6 +26,15 @@ class UrlTable extends Controller
         return response()->json(['message' => 'URL kustutatud edukalt']);
     }
 
+    public function deleteSelectedRows(Request $request)
+    {
+        $selectedIds = json_decode($request->input('selectedIds'));
+
+        Url::whereIn('id', $selectedIds)->delete();
+
+        return response()->json(['message' => 'Valitud read kustutatud edukalt!']);
+    }
+
     public function updateCustomLink(Request $request, $id)
     {
         $userId = Auth::id();
