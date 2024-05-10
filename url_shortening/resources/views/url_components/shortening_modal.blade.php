@@ -25,8 +25,10 @@
                         <div class="modal-body flex flex-col">
                         <input type="hidden" name="shortened_url_id" value="{{ session('shortenedUrlId') }}">
                             <div class="flex items-center mb-2">
-                                <input type="text" id="short-link-prefix" class="px-4 py-1 h-10 border border-gray-300 rounded mr-2 w-1/3" value="http://127.0.0.1:8000/{{ session('shortenedUrlId') }}" disabled>
-                                <input type="text" id="shortenedUrl" name="short_url" value="{{ session('shortenedURL') }}" class="px-4 py-1 h-10 border border-gray-300 rounded w-full">
+                                <input type="text" id="short-link-prefix" class="px-4 py-1 h-10 border border-gray-300 rounded mr-2 w-1/3"
+                                value="http://127.0.0.1:8000/" disabled>
+                                <input type="text" id="shortenedUrl" name="short_url" value="{{ session('shortenedURL') }}"
+                                class="px-4 py-1 h-10 border border-gray-300 rounded w-full">
                                 <button type="button" onclick="copyToClipboard()" class="text-blue-500 hover:text-blue-700 mr-2">
                                     <i class="far fa-copy"></i>
                                 </button>
@@ -39,7 +41,8 @@
                         </div>
                         <div class="modal-footer flex justify-end pt-4 border-t">
                             <button type="submit" class="w-auto bg-blue-500 text-white font-semibold px-4 py-2 rounded mr-2">Salvesta</button>
-                            <button type="button" class="w-auto bg-blue-500 text-white font-semibold px-4 py-2 rounded" onclick="closeShorteningModal()">Tühista</button>
+                            <button type="button" class="w-auto bg-blue-500 text-white font-semibold px-4 py-2 rounded"
+                            onclick="closeShorteningModal()">Tühista</button>
                         </div>
                     </form>
                 </div>

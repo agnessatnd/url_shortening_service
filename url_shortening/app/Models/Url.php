@@ -13,19 +13,19 @@ class Url extends Model
         'original_url',
         'short_url',
         'user_id',
-        'date',
         'clicks',
         'expiration_date',
     ];
 
     protected $casts = [
-        'date' => 'datetime',
         'expiration_date' => 'datetime',
     ];
-    public $timestamps = true; 
+    public $timestamps = true;
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 }
+
+
 

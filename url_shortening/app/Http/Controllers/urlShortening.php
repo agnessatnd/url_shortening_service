@@ -11,29 +11,28 @@ class urlShortening extends Controller
 {
     public function shorten(Request $request)
     {
-        if ($request->has('shorten_button')) {
-            $originalURL = $request->input('url');
-            $shortenedCode = $this->generateShortUrl($originalURL);
-
-            if (Auth::check()) {
-                $userId = Auth::id(); // If user is logged in
-            } else {
-                $userId = null;
-            }
-
-            Url::create([
-                'original_url' => $originalURL,
-                'short_url' => $shortenedCode,
-                'user_id' => $userId,
-            ]);
-            $shortenedUrl = Url::where('short_url', $shortenedCode)->first();
-            $shortenedURL = $shortenedCode;
-            $request->session()->flash('shortenedURL', $shortenedURL);
-            $request->session()->flash('shortenedUrlId', $shortenedUrl->id);
-
-            return redirect()->back();
+        if (!$request->has('shorten_button')) {
+            abort(400, 'Shorten button not found');
         }
+
+        $originalURL = $request->input('url');
+        $shortenedCode = $this->generateShortUrl($originalURL);
+
+        $userId = Auth::id();
+
+        Url::create([
+            'original_url' => $originalURL,
+            'short_url' => $shortenedCode,
+            'user_id' => $userId,
+        ]);
+        $shortenedUrl = Url::where('short_url', $shortenedCode)->first();
+        $shortenedURL = $shortenedCode;
+        $request->session()->flash('shortenedURL', $shortenedURL);
+        $request->session()->flash('shortenedUrlId', $shortenedUrl->id);
+
+        return redirect()->back();
     }
+
 
     public function redirectToOriginalUrl(Request $request, $shortCode)
     {
@@ -96,3 +95,5 @@ class urlShortening extends Controller
         }
     }
 }
+
+

@@ -34,7 +34,7 @@
                                 <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Lingi lühendamise teenus</h2>
 
                                 <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Kas olete kunagi tundnud vajadust jagada pikkasid linke, kuid sooviksite, et need oleksid lühemad ja esteetilisemad? Meie teenus pakub teile võimalust muuta pikad URL-id lühikesteks ja kergesti jagatavateks lühilinkideks.
+                                Kas olete kunagi tundnud vajadust jagada pikki linke, kuid sooviksite, et need oleksid lühemad ja esteetilisemad? Meie teenus pakub teile võimalust muuta pikad URL-id lühikesteks ja kergesti jagatavateks lühilinkideks.
                                 </p>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                 <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Teenused</h2>
 
                                 <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Pakume mitmeid teenuseid, sealhulgas linkide lühendamist ja haldamist, kohandatud linkide loomist ning ajapiiranguga linkide genereerimist. Lisaks on võimalik mugavalt hallata lühendatud linke läbi mugava tabelivaate.
+                                Pakume mitmeid teenuseid, sealhulgas linkide lühendamist ja haldamist, kohandatud linkide loomist ning ajapiiranguga linkide loomist.
                                 </p>
                             </div>
                         </div>

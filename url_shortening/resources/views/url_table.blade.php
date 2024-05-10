@@ -30,7 +30,7 @@
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider" style="max-width: 300px;">Originaal link</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Lühendatud link</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Lisatud</th>
-                    <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Klikid</th>
+                    <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Külastuste arv</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Kehtib kuni</th>
                     <th class="px-6 py-3 bg-white text-left text-xs leading-4 font-medium text-gray-800 uppercase tracking-wider">Muuda</th>
                 </tr>
@@ -48,9 +48,13 @@
                                 <i class="far fa-copy"></i>
                             </button>
                         </td>
-                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->created_at }}</td>
+                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ date('H:i d.m.Y', strtotime($url->created_at)) }}</td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->clicks }}</td>
-                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">{{ $url->expiration_date }}</td>
+                        <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">
+                        @if($url->expiration_date)
+                            {{ date('H:i d.m.Y', strtotime($url->expiration_date)) }}
+                        @endif
+                        </td>
                         <td class="px-6 py-4 whitespace-wrap" style="word-wrap: break-word;">
                             <a href="#" class="text-blue-500 hover:text-blue-700 edit-url" title="Muuda" data-url-id="{{ $url->id }}" data-dialog-id="dialog-{{ $url->id }}" onclick="openDialog('dialog-{{ $url->id }}')">
                                 <i class="fas fa-edit"></i>

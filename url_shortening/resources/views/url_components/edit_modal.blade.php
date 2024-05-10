@@ -12,30 +12,17 @@
                     </div>
                     <form id="update-form-{{ $editUrl->id }}" action="/update_custom_link/{{ $editUrl->id }}" method="POST" data-modal-id="dialog-{{ $editUrl->id }}">
                         @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        <div id="error-message" class="hidden text-red-500"></div>
                         <div class="flex mb-4">
                             <input type="text" id="short-link-prefix" class="px-4 py-2 border border-gray-300 rounded mr-2 w-1/3" value="http://127.0.0.1:8000/" disabled>
                             <div class="modal-body flex-1">
-                                <input type="text" id="custom-link-end" name="custom_link" value="{{ $editUrl->short_url }}" placeholder="Sisestage kohandatud link" class="px-4 py-2 border border-gray-300 rounded w-full">
+                                <input type="text" id="custom-link-end" name="short_url" value="{{ $editUrl->short_url }}" placeholder="Sisestage kohandatud link" class="px-4 py-2 border border-gray-300 rounded w-full">
                             </div>
                         </div>
                         <div class="flex items-center mb-2">
                             <label class="block text-base font-medium text-gray-700 mr-2">Kehtib kuni:</label>
-                            <input type="date" id="datepicker" name="expiration_date" class="px-4 py-1 h-10 border border-gray-300 rounded mr-2">
-                            <input type="time" id="timepicker" name="expiration_time" class="px-4 py-1 h-10 border border-gray-300 rounded">
+                            <input type="date" id="datepicker" name="expiration_date" class="px-4 py-1 h-10 border border-gray-300 rounded mr-2" value="{{ $editUrl->expiration_date ? date('Y-m-d', strtotime($editUrl->expiration_date)) : '' }}">
+                            <input type="time" id="timepicker" name="expiration_time" class="px-4 py-1 h-10 border border-gray-300 rounded" value="{{ $editUrl->expiration_date ? date('H:i', strtotime($editUrl->expiration_date)) : '' }}">
                         </div>
                         <div class="modal-footer flex justify-end pt-4 border-t">
                             <button type="submit" class="w-auto bg-blue-500 text-white font-semibold px-4 py-2 rounded mr-2 save-button">Salvesta</button>
