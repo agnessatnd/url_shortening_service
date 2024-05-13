@@ -31,7 +31,7 @@
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
 
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Lingi lühendamise teenus</h2>
+                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Lingi lühendamine</h2>
 
                                 <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
                                 Kas olete kunagi tundnud vajadust jagada pikki linke, kuid sooviksite, et need oleksid lühemad ja esteetilisemad? Meie teenus pakub teile võimalust muuta pikad URL-id lühikesteks ja kergesti jagatavateks lühilinkideks.

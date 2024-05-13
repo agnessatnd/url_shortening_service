@@ -4,14 +4,12 @@ function copyShortUrl(shortUrl) {
 
     navigator.clipboard.writeText(fullUrl)
         .then(() => {
-            alert('Link kopeeritud lõikelauale: ' + fullUrl);
+            alert('Link kopeeritud!: ' + fullUrl);
         })
         .catch(err => {
-            console.error('Tekkis viga kopeerimisel: ', err);
             alert('Kopeerimisel tekkis viga');
         });
 }
-
 
 function deleteUrl(urlId) {
     if (confirm('Kas olete kindel, et soovite seda URL-i kustutada?')) {
@@ -94,27 +92,28 @@ function deleteSelectedRows() {
         selectedIds.push(row.value);
     });
 
-    var formData = new FormData();
-    formData.append('selectedIds', JSON.stringify(selectedIds));
+    if (confirm('Kas olete kindel, et soovite valitud URL-id kustutada?')) {
+        var formData = new FormData();
+        formData.append('selectedIds', JSON.stringify(selectedIds));
 
-    fetch('/delete-selected-rows', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('Read kustutatud edukalt');
-            location.reload();
-        } else {
-            alert('Ridade kustutamine ebaõnnestus');
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        fetch('/delete-selected-rows', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Read kustutatud edukalt');
+                location.reload();
+            } else {
+                alert('Ridade kustutamine ebaõnnestus');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -204,7 +203,7 @@ function copyToClipboard() {
     var shortenedUrl = document.getElementById("shortenedUrl").value;
     var fullUrl = prefix + shortenedUrl;
     navigator.clipboard.writeText(fullUrl).then(function() {
-        alert('Link kopeeritud lõikelauale: ' + fullUrl);
+        alert('Link kopeeritud!: ' + fullUrl);
     }, function(err) {
         alert('Kopeerimisel tekkis viga');
     });

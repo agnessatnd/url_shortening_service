@@ -48,7 +48,9 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button class="mr-2 bg-blue-500">Salvesta</x-primary-button>
+            <button class="bg-blue-500 text-white font-semibold px-4 py-2 rounded">
+                {{ __('Salvesta') }}
+            </button>
 
             @if (session('status') === 'profile-updated')
                 <p

@@ -4,9 +4,9 @@
         <div class="flex items-center">
             <div class="flex-shrink-0 mr-6">
                 @guest
-                    <a href="{{ route('login') }}" class="text-white">TPT Link</a>
+                    <a href="{{ route('login') }}" class="text-white">Lühenda link</a>
                 @else
-                    <a href="/shortening" class="text-white">TPT Link</a>
+                    <a href="/shortening" class="text-white">Lühenda link</a>
                 @endguest
             </div>
             <div class="flex-shrink-0 mr-4">
