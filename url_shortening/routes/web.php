@@ -61,7 +61,8 @@ Route::get('/forgot-password', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/shortening', function () {
         return view('shortening');
-    });
+    })->name('shortening');
+    
     Route::get('/url_table', [UrlTable::class, 'urlTable'])->name('url_table');
     Route::delete('/url_table/{id}', [UrlTable::class, 'deleteUrl'])->name('url_table.delete');
     Route::get('/edit_url/{id}', [UrlTable::class, 'editUrl'])->name('edit_url');

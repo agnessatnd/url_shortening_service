@@ -46,6 +46,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('/shortening');
+        return redirect()->route('shortening');
     }
 }
